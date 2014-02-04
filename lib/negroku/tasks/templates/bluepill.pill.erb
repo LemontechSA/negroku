@@ -1,0 +1,31 @@
+Bluepill.application("<%= fetch(:application) %>", :log_file => "<%= fetch(:shared_path) %>/log/bluepill.log") do
+
+  working_dir = "<%= fetch(:current_path) %>"
+  uid = app.gid = "<%= fetch(:user) %>"
+
+  # Unicorn
+  process("unicorn") do
+    pid_file "<%= fetch(:unicorn_pid) %>"
+    environment {
+      'RAILS_ENV' => "<%= fetch(:rails_env) %>",
+      'BUNDLE_GEMFILE' => "<%= fetch(:current_path) %>/Gemfile"
+    }
+
+    start_command "<%= fetch(:unicorn_bin) %> -c <%= fetch(:unicorn_config_file) %> -E <%= fetch(:rails_env) %>"
+    stop_command "kill -QUIT {{PID}}"
+    restart_command "kill -USR2 {{PID}}"
+
+    start_grace_time 8.seconds
+    stop_grace_time 5.seconds
+    restart_grace_time 13.seconds
+
+    monitor_children do
+      stop_command "kill -QUIT {{PID}}"
+
+      checks :mem_usage, :every => 10.seconds, :below => 150.megabytes, :times => [3,4], :fires => :stop
+      checks :cpu_usage, :every => 10.seconds, :below => 20, :times => [3,4], :fires => :stop
+
+      #checks :flapping, :times => 2, :within => 30.seconds, :retry_in => 7.seconds
+    end
+  end
+end

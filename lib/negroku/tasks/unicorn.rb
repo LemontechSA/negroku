@@ -22,6 +22,8 @@ set_default(:unicorn_pid) { File.join(current_path, "tmp", "pids", "unicorn.pid"
 # Preload app for fast worker spawn
 set_default :unicorn_preload, true
 
+set_default(:unicorn_config_file) { "#{shared_path}/config/unicorn.rb" }
+
 set_default(:unicorn_config_path) { "#{shared_path}/config" }
 
 # Unicorn
