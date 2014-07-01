@@ -15,8 +15,8 @@ server {
   server_name <%= fetch(:domains) %>;
   root        <%= fetch(:deploy_to) %>/current/<%= fetch(:static_dir) %>;
 
-  access_log /home/<%= fetch(:user) %>/log/<%= fetch(:application) %>-nginx-access.log;
-  error_log  /home/<%= fetch(:user) %>/log/<%= fetch(:application) %>-nginx-error.log;
+  access_log /home/<%= fetch(:deploy_dir) %>/log/<%= fetch(:application) %>-nginx-access.log;
+  error_log  /home/<%= fetch(:deploy_dir) %>/log/<%= fetch(:application) %>-nginx-error.log;
 
   error_page 404 /404.html;
   location /404.html { root <%= fetch(:deploy_to) %>/current/<%= fetch(:static_dir) %>; }
@@ -54,11 +54,11 @@ server {
   root        <%= fetch(:deploy_to) %>/current/<%= fetch(:static_dir) %>;
 
   ssl                 on;
-  ssl_certificate     /home/<%= fetch(:user) %>/ssl/<%= fetch(:application) %>.crt;
-  ssl_certificate_key /home/<%= fetch(:user) %>/ssl/<%= fetch(:application) %>.key;
+  ssl_certificate     /home/<%= fetch(:deploy_dir) %>/ssl/<%= fetch(:application) %>.crt;
+  ssl_certificate_key /home/<%= fetch(:deploy_dir) %>/ssl/<%= fetch(:application) %>.key;
 
-  access_log /home/<%= fetch(:user) %>/log/<%= fetch(:application) %>-nginx-access.log;
-  error_log  /home/<%= fetch(:user) %>/log/<%= fetch(:application) %>-nginx-error.log;
+  access_log /home/<%= fetch(:deploy_dir) %>/log/<%= fetch(:application) %>-nginx-access.log;
+  error_log  /home/<%= fetch(:deploy_dir) %>/log/<%= fetch(:application) %>-nginx-error.log;
 
   error_page 404 /404.html;
   location /404.html { root <%= fetch(:deploy_to) %>/current/<%= fetch(:static_dir) %>; }

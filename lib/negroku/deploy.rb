@@ -11,6 +11,7 @@ set   :use_sudo,            false
 # Default Configuration
 set :remote, 'origin' unless respond_to?(:remote)
 set :branch, 'master' unless respond_to?(:branch)
+set :deploy_dir, 'apps' unless respond_to?(:deploy_dir)
 
 # Default environment
 set :rails_env, 'production' unless respond_to?(:rails_env)

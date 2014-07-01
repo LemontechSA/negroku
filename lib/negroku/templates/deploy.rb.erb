@@ -6,9 +6,12 @@ require 'capistrano/ext/multistage'
 # Server-side information.
 set :application, "<%= data[:application_name] %>"
 set :user,        "deploy"
-set :deploy_to,   "/home/#{user}/applications/#{application}"
+set :deploy_dir,  "apps"
+set :deploy_to,   "/home/#{deploy_dir}/#{application}"
+set :app_server_socket, "/home/#{deploy_dir}/tmp/negroku.#{:application}.sock"
 
 # Repository (if any) configuration.
+set :ssh_options, { :forward_agent => true }
 set :deploy_via, :remote_cache
 set :repository, "<%= data[:repo] %>"
 # set :git_enable_submodules, 1

@@ -11,7 +11,7 @@ set_default :static_dir, "public"
 
 set_default :app_server, true
 #set_default :app_server_port, 8080
-set_default :app_server_socket, "/home/#{fetch(:user)}/tmp/negroku.#{fetch(:application)}.sock"
+set_default :app_server_socket, "/home/#{fetch(:deploy_dir)}/tmp/negroku.#{fetch(:application)}.sock"
 
 # set_default :use_ssl, true
 # set_default :ssl_key, "/path/to/local/ssh.key"
@@ -30,9 +30,9 @@ namespace :nginx do
   desc "Upload SSL certificates for this application."
   task :upload_ssl_certificates, roles: :web do
     if fetch(:use_ssl, nil)
-      run "mkdir -p /home/#{fetch(:user)}/ssl"
-      upload ssl_key, "/home/#{fetch(:user)}/ssl/#{fetch(:application)}.key"
-      upload ssl_crt, "/home/#{fetch(:user)}/ssl/#{fetch(:application)}.crt"
+      run "mkdir -p /home/#{fetch(:deploy_dir)}/ssl"
+      upload ssl_key, "/home/#{fetch(:deploy_dir)}/ssl/#{fetch(:application)}.key"
+      upload ssl_crt, "/home/#{fetch(:deploy_dir)}/ssl/#{fetch(:application)}.crt"
     end
   end
 
@@ -48,7 +48,7 @@ namespace :nginx do
     end
     run "mv /tmp/nginx.conf /etc/nginx/sites-available/#{fetch(:application)}"
     run "ln -nfs /etc/nginx/sites-available/#{fetch(:application)} /etc/nginx/sites-enabled/#{fetch(:application)}"
-    run "mkdir -p /home/#{fetch(:user)}/log"
+    run "mkdir -p /home/#{fetch(:deploy_dir)}/log"
     reload
   end
 
