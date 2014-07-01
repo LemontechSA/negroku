@@ -5,7 +5,6 @@ require File.join(File.dirname(__FILE__), 'helpers')
 # Base settings
 set   :scm,                 'git'
 set   :deploy_via, :remote_cache
-set   :use_sudo,            false
 
 ##
 # Default Configuration
