@@ -46,9 +46,9 @@ namespace :nginx do
     else
       template "nginx.erb", "/tmp/nginx.conf"
     end
-    run "mv /tmp/nginx.conf /etc/nginx/sites-available/#{fetch(:application)}"
-    run "ln -nfs /etc/nginx/sites-available/#{fetch(:application)} /etc/nginx/sites-enabled/#{fetch(:application)}"
-    run "mkdir -p /home/#{fetch(:deploy_dir)}/log"
+    run "sudo mv /tmp/nginx.conf /etc/nginx/sites-available/#{fetch(:application)}"
+    run "sudo ln -nfs /etc/nginx/sites-available/#{fetch(:application)} /etc/nginx/sites-enabled/#{fetch(:application)}"
+    run "sudo mkdir -p /home/#{fetch(:deploy_dir)}/log"
     reload
   end
 
