@@ -33,10 +33,15 @@ namespace :unicorn do
   after "deploy:setup", "unicorn:setup"
   desc "Setup unicorn configuration for this application."
    task :setup, roles: :app do
-    template "unicorn.erb", "/tmp/unicorn.rb"
+   	config_file = "config/deploy/unicorn.erb"
+    if File.exists?(config_file)
+        config = ERB.new(File.read(config_file)).result(binding)
+        put config, "/tmp/unicorn.rb"
+    else
+      template "unicorn.erb", "/tmp/unicorn.rb"
+    end
     run "mv /tmp/unicorn.rb #{shared_path}/config/"
   end
-
   after "deploy:cold", "unicorn:start"
   after 'deploy:restart', 'unicorn:restart'
 end
